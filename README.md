@@ -24,6 +24,7 @@ API 默认监听 `127.0.0.1:19343`。接口文档在 `/api/docs`，机器可读�
 2. `GET /api/spec` 查看 CSV 列、参数和结果口径。`GET /api/datasets` 查找演示台账，或用 `POST /api/datasets` 提交带 `name`、`csv` 的 JSON。
 3. `POST /api/runs` 提交 `dataset_id`、`label` 和可选的 `settings`。响应包含运行 ID 及最终状态。`GET /api/runs/{id}` 返回业务指标、表格或失败原因。
 4. 负责人调用 `POST /api/runs/{id}/review`，提交 `decision`（`approved` 或 `rejected`）和 `note`。批准后可通过 `GET /api/runs/{id}/export/{table_key}` 下载业务表。表名和字段从运行结果取得。
+5. 末检未判齐时使用增量分诊（见 BUSINESS.md「末检未判齐的增量分诊」）：`POST /api/triage` 建立工作流并声明 `pending_ids`；`POST /api/triage/{id}/judgments` 按幂等键提交乱序补判；`POST /api/triage/{id}/schedules` 按留出整批排单并冻结定阈版本；`GET /api/triage/{id}` 查每批定阈依据与当前代价区间；批准后 `GET /api/triage/{id}/export/{key}` 下载顺序单与对账表。
 
 ## 代码与配置
 
